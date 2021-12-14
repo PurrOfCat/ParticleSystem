@@ -15,28 +15,75 @@ namespace ParticleSystem
         public Form1()
         {
             InitializeComponent();
-            picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
+            picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);            
+        }
 
-            for (var i = 0; i < 500; ++i)
+        private void UpdateState()
+        {
+            foreach (var particle in particles)
             {
-                var particle = new Particle();
-                
-                particle.X = picDisplay.Image.Width / 2;
-                particle.Y = picDisplay.Image.Height / 2;
-                
-                particles.Add(particle);
+                particle.Life -= 1;
+
+                if (particle.Life < 0)
+                {
+                    particle.Life = 20 + Particle.rand.Next(100);
+                    particle.X = MousePositionX;
+                    particle.Y = MousePositionY;
+                    particle.Direction = Particle.rand.Next(360);
+                    particle.Speed = 1 + Particle.rand.Next(10);
+                    particle.Radius = 2 + Particle.rand.Next(10);
+                }
+                else
+                {
+                    var directionInRadians = particle.Direction / 180 * Math.PI;
+                    particle.X += (float)(particle.Speed * Math.Cos(directionInRadians));
+                    particle.Y -= (float)(particle.Speed * Math.Sin(directionInRadians));
+                }
+            }
+
+            for (var i = 0; i < 10; ++i)
+            {
+                if (particles.Count < 500)
+                {
+                    var particle = new ParticleColorful();
+                    particle.FromColor = Color.Yellow;
+                    particle.ToColor = Color.FromArgb(0, Color.Magenta);
+                    particle.X = MousePositionX;
+                    particle.Y = MousePositionY;
+                    particles.Add(particle);
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
-        int counter = 0;
+        private void Render(Graphics g)
+        {
+            foreach (var particle in particles)
+            {
+                particle.Draw(g);
+            }
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            counter++;
+            UpdateState();
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
-                g.DrawString(counter.ToString(), new Font("Arial", 12), new SolidBrush(Color.Black), new PointF { X = picDisplay.Image.Width / 2, Y = picDisplay.Image.Height / 2 });
+                g.Clear(Color.Black);
+                Render(g);
             }
             picDisplay.Invalidate();
+        }
+
+        private int MousePositionX = 0;
+        private int MousePositionY = 0;
+        private void picDisplay_MouseMove(object sender, MouseEventArgs e)
+        {
+            MousePositionX = e.X;
+            MousePositionY = e.Y;
         }
     }
 }
