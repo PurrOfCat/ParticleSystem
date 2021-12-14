@@ -6,11 +6,14 @@ using System.Text;
 
 namespace ParticleSystem
 {
-    class Emitter
+    public class Emitter
     {
         List<Particle> particles = new List<Particle>();
         public int MousePositionX;
         public int MousePositionY;
+        public List<IImpactPoint> impactPoints = new List<IImpactPoint>();        
+        public float GravitationX = 0;
+        public float GravitationY = 1;        
 
         public void UpdateState()
         {
@@ -20,20 +23,18 @@ namespace ParticleSystem
 
                 if (particle.Life < 0)
                 {
-                    particle.Life = 20 + Particle.rand.Next(100);
-                    particle.X = MousePositionX;
-                    particle.Y = MousePositionY;
-
-                    var direction = (double)Particle.rand.Next(360);
-                    var speed = 1 + Particle.rand.Next(10);
-
-                    particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
-                    particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
-
-                    particle.Radius = 2 + Particle.rand.Next(10);
+                    ResetParticle(particle);
                 }
                 else
                 {
+                    foreach (var point in impactPoints)
+                    {
+                        point.ImpactParticle(particle);
+                    }
+
+                    particle.SpeedX += GravitationX;
+                    particle.SpeedY += GravitationY;
+
                     particle.X += particle.SpeedX;
                     particle.Y += particle.SpeedY;
                 }
@@ -44,10 +45,10 @@ namespace ParticleSystem
                 if (particles.Count < 500)
                 {
                     var particle = new ParticleColorful();
-                    particle.FromColor = Color.Yellow;
-                    particle.ToColor = Color.FromArgb(0, Color.Magenta);
-                    particle.X = MousePositionX;
-                    particle.Y = MousePositionY;
+                    particle.FromColor = Color.White;
+                    particle.ToColor = Color.FromArgb(0, Color.Black);
+
+                    ResetParticle(particle);
                     particles.Add(particle);
                 }
                 else
@@ -57,12 +58,47 @@ namespace ParticleSystem
             }
         }
 
+        public virtual void ResetParticle(Particle particle)
+        {
+            particle.Life = 20 + Particle.rand.Next(100);
+            particle.X = MousePositionX;
+            particle.Y = MousePositionY;
+
+            var direction = (double)Particle.rand.Next(360);
+            var speed = 1 + Particle.rand.Next(10);
+
+            particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
+            particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
+
+            particle.Radius = 2 + Particle.rand.Next(10);
+        }
+
         public void Render(Graphics g)
         {
             foreach (var particle in particles)
             {
                 particle.Draw(g);
             }
+
+            foreach (var point in impactPoints)
+            {
+                point.Render(g);
+            }
+        }
+    }
+
+    public class TopEmitter : Emitter
+    {
+        public int Width;
+        public override void ResetParticle(Particle particle)
+        {
+            base.ResetParticle(particle);
+                        
+            particle.X = Particle.rand.Next(Width);
+            particle.Y = 0;
+
+            particle.SpeedY = 1;
+            particle.SpeedX = Particle.rand.Next(-2, 2);
         }
     }
 }
