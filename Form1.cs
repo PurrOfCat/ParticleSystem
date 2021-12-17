@@ -22,6 +22,12 @@ namespace ParticleSystem
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
             picDisplay.MouseWheel += picDisplay_MouseWheel;
 
+            point1 = new CounterPoint
+            {
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2,
+            };
+
             this.emitter = new Emitter
             {
                 Direction = 90,
@@ -33,10 +39,13 @@ namespace ParticleSystem
                 ParticlesPerTick = 30,
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
-            };             
+                Counter = point1
+            };
 
             emitters.Add(this.emitter);
                         
+            emitter.impactPoints.Add(point1);
+
             /*point2 = new GravityPoint
             {
                 X = picDisplay.Width / 2 - 100,
@@ -44,17 +53,10 @@ namespace ParticleSystem
             };
             
             emitter.impactPoints.Add(point2);*/
-
-            point1 = new CounterPoint
-            {
-                X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
-            };
-            emitter.impactPoints.Add(point1);
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            emitter.UpdateState();
+            emitter.UpdateState();            
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
                 g.Clear(Color.Black);
@@ -72,6 +74,7 @@ namespace ParticleSystem
 
             point1.X = e.X;
             point1.Y = e.Y;
+            point1.Counter = 0;
         }
 
         private void tbDirection_Scroll(object sender, EventArgs e)

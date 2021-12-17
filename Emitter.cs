@@ -28,6 +28,7 @@ namespace ParticleSystem
         public int ParticlesPerTick = 1;
         public Color ColorFrom = Color.White;
         public Color ColorTo = Color.FromArgb(0, Color.Black);
+        public CounterPoint Counter;        
 
         public virtual void ResetParticle(Particle particle)
         {
@@ -55,6 +56,7 @@ namespace ParticleSystem
         }
         public void UpdateState()
         {
+            Counter.Counter = 0;            
             int particlesToCreate = ParticlesPerTick;
 
             foreach (var particle in particles)
@@ -71,10 +73,10 @@ namespace ParticleSystem
                 {
                     particle.X += particle.SpeedX;
                     particle.Y += particle.SpeedY;
-
                     particle.Life -= 1;
+
                     foreach (var point in impactPoints)
-                    {
+                    {                        
                         point.ImpactParticle(particle);
                     }
 
@@ -82,6 +84,7 @@ namespace ParticleSystem
                     particle.SpeedY += GravitationY;
                 }
             }
+
             while (particlesToCreate >= 1)
             {
                 particlesToCreate -= 1;
@@ -90,6 +93,7 @@ namespace ParticleSystem
                 particles.Add(particle);
             }
         }
+
         public void Render(Graphics g)
         {
             foreach (var particle in particles)

@@ -70,18 +70,17 @@ namespace ParticleSystem
     public class CounterPoint : IImpactPoint
     {
         public int Power = 100;
-        public int Counter = 0;
+        public int Counter = 0;        
         public override void ImpactParticle(Particle particle)
         {
             float gX = X - particle.X;
-            float gY = Y - particle.Y;
+            float gY = Y - particle.Y;            
 
             double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
             if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
             {
-                Counter++;
-                
-            }
+                Counter++;                           
+            }            
         }
         public override void Render(Graphics g)
         {
@@ -92,7 +91,7 @@ namespace ParticleSystem
             stringFormat.LineAlignment = StringAlignment.Center;
 
             var text = $"{Counter}";
-            var font = new Font("Verdana", 10);
+            var font = new Font("Verdana", 12);
 
             g.DrawString(text, font, new SolidBrush(Color.White), X, Y, stringFormat);
         }

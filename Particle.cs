@@ -14,7 +14,7 @@ namespace ParticleSystem
 
         public float SpeedX;
         public float SpeedY;
-        public float Life;
+        public float Life;        
 
         public static Random rand = new Random();
 
@@ -42,9 +42,10 @@ namespace ParticleSystem
     }
 
     public class ParticleColorful : Particle
-    {        
+    {
         public Color FromColor;
         public Color ToColor;
+
         public static Color MixColor(Color color1, Color color2, float k)
         {
             return Color.FromArgb((int)(color2.A * k + color1.A * (1 - k)),
