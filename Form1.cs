@@ -13,43 +13,44 @@ namespace ParticleSystem
     {
         List<Emitter> emitters = new List<Emitter>();
         Emitter emitter;
-        GravityPoint point1;
-        GravityPoint point2;
+        CounterPoint point1;
+        //GravityPoint point2;
 
         public Form1()
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
+            picDisplay.MouseWheel += picDisplay_MouseWheel;
 
             this.emitter = new Emitter
             {
-                Direction = 0,
-                Spreading = 10,
-                SpeedMin = 10,
-                SpeedMax = 10,
+                Direction = 90,
+                Spreading = 180,
+                SpeedMin = 13,
+                SpeedMax = 13,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.Red),
-                ParticlesPerTick = 10,
+                ParticlesPerTick = 30,
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
             };             
 
             emitters.Add(this.emitter);
-
-            point1 = new GravityPoint
-            {
-                X = picDisplay.Width / 2 + 100,
-                Y = picDisplay.Height / 2,
-            };
-
-            point2 = new GravityPoint
+                        
+            /*point2 = new GravityPoint
             {
                 X = picDisplay.Width / 2 - 100,
                 Y = picDisplay.Height / 2,
             };
+            
+            emitter.impactPoints.Add(point2);*/
 
+            point1 = new CounterPoint
+            {
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2,
+            };
             emitter.impactPoints.Add(point1);
-            emitter.impactPoints.Add(point2);
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -69,8 +70,8 @@ namespace ParticleSystem
                 emitter.MousePositionY = e.Y;
             }
 
-            point2.X = e.X;
-            point2.Y = e.Y;
+            point1.X = e.X;
+            point1.Y = e.Y;
         }
 
         private void tbDirection_Scroll(object sender, EventArgs e)
@@ -81,12 +82,23 @@ namespace ParticleSystem
 
         private void tbGraviton_Scroll(object sender, EventArgs e)
         {
-           point1.Power = tbGraviton.Value;
+           /*point1.Power = tbGraviton.Value;*/
         }
 
         private void tbGraviton2_Scroll(object sender, EventArgs e)
         {
-            point2.Power = tbGraviton2.Value;
+            /*point2.Power = tbGraviton2.Value;*/
+        }
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                point1.Power += 10;
+            } 
+            else if (point1.Power != 0)
+            {
+                point1.Power -= 10;
+            } 
         }
     }
 }
