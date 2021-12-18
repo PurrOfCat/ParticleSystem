@@ -39,6 +39,12 @@ namespace ParticleSystem
 
             var direction = Direction + (double)Particle.rand.Next(Spreading) - Spreading / 2;
 
+            if (particle is ParticleColorful colorful)
+            {
+                colorful.FromColor = ColorFrom;
+                colorful.ToColor = ColorTo;
+            }
+
             var speed = Particle.rand.Next(SpeedMin, SpeedMax);
 
             particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);

@@ -60,7 +60,7 @@ namespace ParticleSystem
             float k = Math.Min(1f, Life / 100);
             
             var color = MixColor(ToColor, FromColor, k);
-            var b = new SolidBrush(IsInCounterPoint?Color.BlueViolet:color);
+            var b = new SolidBrush(IsInCounterPoint?Color.Salmon:color);
 
             g.FillEllipse(b, X - Radius, Y - Radius, Radius * 2, Radius * 2);
 

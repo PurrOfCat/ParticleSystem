@@ -29,7 +29,6 @@ namespace ParticleSystem
             double r = Math.Sqrt(gX * gX + gY * gY);
             if (r + particle.Radius < Power / 2)
             {
-                // то притягиваем ее
                 float r2 = (float)Math.Max(100, gX * gX + gY * gY);
                 particle.SpeedX += gX * Power / r2;
                 particle.SpeedY += gY * Power / r2;
@@ -69,7 +68,7 @@ namespace ParticleSystem
 
     public class CounterPoint : IImpactPoint
     {
-        public int Power = 100;
+        public int Diametr = 100;
         public int Counter = 0;        
         public override void ImpactParticle(Particle particle)
         {
@@ -77,7 +76,7 @@ namespace ParticleSystem
             float gY = Y - particle.Y;            
 
             double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
-            if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
+            if (r + particle.Radius < Diametr / 2) // если частица оказалось внутри окружности
             {
                 Counter++;
                 if (particle is ParticleColorful particleColorful)
@@ -88,7 +87,7 @@ namespace ParticleSystem
         }
         public override void Render(Graphics g)
         {
-            g.DrawEllipse(new Pen(Color.BlueViolet), X - Power / 2, Y - Power / 2, Power, Power);
+            g.DrawEllipse(new Pen(Color.Salmon), X - Diametr / 2, Y - Diametr / 2, Diametr, Diametr);
 
             var stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
@@ -98,6 +97,30 @@ namespace ParticleSystem
             var font = new Font("Verdana", 12);
 
             g.DrawString(text, font, new SolidBrush(Color.White), X, Y, stringFormat);
+        }
+    }
+
+    public class RepaintingPoint : IImpactPoint
+    {
+        public Color RepaintTo;
+        public int Diametr = 75;
+        public override void ImpactParticle(Particle particle)
+        {
+            var gX = X - particle.X;
+            var gY = Y - particle.Y;
+
+            double r = Math.Sqrt(gX * gX + gY * gY);
+            if (!(r + particle.Radius / 2f < Diametr / 2f)) return;
+
+            if (particle is ParticleColorful particleСolorful)
+            {
+                particleСolorful.FromColor = RepaintTo;
+                particleСolorful.ToColor = RepaintTo;
+            }
+        }
+        public override void Render(Graphics graphics)
+        {
+            graphics.DrawEllipse(new Pen(RepaintTo), X - Diametr / 2, Y - Diametr / 2, Diametr, Diametr);
         }
     }
 }

@@ -13,8 +13,14 @@ namespace ParticleSystem
     {
         List<Emitter> emitters = new List<Emitter>();
         Emitter emitter;
-        CounterPoint point1;
-        //GravityPoint point2;
+        CounterPoint pointCounter;
+        RepaintingPoint pointRed;
+        RepaintingPoint pointOrange;
+        RepaintingPoint pointYellow;
+        RepaintingPoint pointGreen;        
+        RepaintingPoint pointBlue;
+        RepaintingPoint pointNavyBlue;
+        RepaintingPoint pointPurple;
 
         public Form1()
         {
@@ -22,37 +28,86 @@ namespace ParticleSystem
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
             picDisplay.MouseWheel += picDisplay_MouseWheel;
 
-            point1 = new CounterPoint
+            pointCounter = new CounterPoint
             {
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
+            };
+
+            pointRed = new RepaintingPoint
+            {
+                X = picDisplay.Width / 8,
+                Y = picDisplay.Height * 2 / 3,
+                RepaintTo = Color.Red
+            };
+
+            pointOrange = new RepaintingPoint
+            {
+                X = picDisplay.Width * 2 / 8,
+                Y = picDisplay.Height * 2 / 3,
+                RepaintTo = Color.Orange
+            };
+
+            pointYellow = new RepaintingPoint
+            {
+                X = picDisplay.Width * 3 / 8,
+                Y = picDisplay.Height * 2 / 3,
+                RepaintTo = Color.Yellow
+            };
+
+            pointGreen = new RepaintingPoint
+            {
+                X = picDisplay.Width * 4 / 8,
+                Y = picDisplay.Height * 2 / 3,
+                RepaintTo = Color.LawnGreen
+            };
+
+            pointBlue = new RepaintingPoint
+            {
+                X = picDisplay.Width * 5 / 8,
+                Y = picDisplay.Height * 2 / 3,
+                RepaintTo = Color.Cyan
+            };
+
+            pointNavyBlue = new RepaintingPoint
+            {
+                X = picDisplay.Width * 6 / 8,
+                Y = picDisplay.Height * 2 / 3,
+                RepaintTo = Color.MediumBlue
+            };
+
+            pointPurple = new RepaintingPoint
+            {
+                X = picDisplay.Width * 7 / 8,
+                Y = picDisplay.Height * 2 / 3,
+                RepaintTo = Color.BlueViolet
             };
 
             this.emitter = new Emitter
             {
                 Direction = 90,
-                Spreading = 180,
-                SpeedMin = 10,
-                SpeedMax = 10,
-                ColorFrom = Color.Gold,
-                ColorTo = Color.FromArgb(0, Color.Red),
-                ParticlesPerTick = 30,
+                Spreading = 90,
+                SpeedMin = 12,
+                SpeedMax = 12,
+                ColorFrom = Color.White,
+                ColorTo = Color.FromArgb(0, Color.Black),
+                ParticlesPerTick = 25,
                 X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 3,
-                Counter = point1
+                Y = picDisplay.Height / 5,
+                Counter = pointCounter
             };
 
             emitters.Add(this.emitter);
-                        
-            emitter.impactPoints.Add(point1);
 
-            /*point2 = new GravityPoint
-            {
-                X = picDisplay.Width / 2 - 100,
-                Y = picDisplay.Height / 2,
-            };
             
-            emitter.impactPoints.Add(point2);*/
+            emitter.impactPoints.Add(pointCounter);                        
+            emitter.impactPoints.Add(pointRed);
+            emitter.impactPoints.Add(pointOrange);
+            emitter.impactPoints.Add(pointYellow);
+            emitter.impactPoints.Add(pointGreen);
+            emitter.impactPoints.Add(pointBlue);
+            emitter.impactPoints.Add(pointNavyBlue);
+            emitter.impactPoints.Add(pointPurple);
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -72,36 +127,37 @@ namespace ParticleSystem
                 emitter.MousePositionY = e.Y;
             }
 
-            point1.X = e.X;
-            point1.Y = e.Y;
-            point1.Counter = 0;
+            pointCounter.X = e.X;
+            pointCounter.Y = e.Y;
+            pointCounter.Counter = 0;
         }
 
         private void tbDirection_Scroll(object sender, EventArgs e)
         {
-            emitter.Direction = tbDirection.Value;
-            lblDirection.Text = $"{tbDirection.Value}°";
+            emitter.Direction = tbDirection.Value;            
         }
 
-        private void tbGraviton_Scroll(object sender, EventArgs e)
+        private void tbMove_Scroll(object sender, EventArgs e)
         {
-           /*point1.Power = tbGraviton.Value;*/
+            pointRed.Y = tbMove.Value;
+            pointOrange.Y = tbMove.Value;
+            pointYellow.Y = tbMove.Value;
+            pointGreen.Y = tbMove.Value;
+            pointBlue.Y = tbMove.Value;
+            pointNavyBlue.Y = tbMove.Value;
+            pointPurple.Y = tbMove.Value;
         }
 
-        private void tbGraviton2_Scroll(object sender, EventArgs e)
-        {
-            /*point2.Power = tbGraviton2.Value;*/
-        }
         private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
             {
-                point1.Power += 10;
+                pointCounter.Diametr += 10;
             } 
-            else if (point1.Power != 0)
+            else if (pointCounter.Diametr != 0)
             {
-                point1.Power -= 10;
+                pointCounter.Diametr -= 10;
             } 
-        }
+        }        
     }
 }
