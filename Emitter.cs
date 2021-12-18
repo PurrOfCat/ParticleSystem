@@ -23,7 +23,7 @@ namespace ParticleSystem
         public int SpeedMax = 10;
         public int RadiusMin = 2;
         public int RadiusMax = 10;
-        public int LifeMin = 20;
+        public int LifeMin = 50;
         public int LifeMax = 100;
         public int ParticlesPerTick = 1;
         public Color ColorFrom = Color.White;
@@ -39,10 +39,10 @@ namespace ParticleSystem
 
             var direction = Direction + (double)Particle.rand.Next(Spreading) - Spreading / 2;
 
-            if (particle is ParticleColorful colorful)
+            if (particle is ParticleColorful particleColorful)
             {
-                colorful.FromColor = ColorFrom;
-                colorful.ToColor = ColorTo;
+                particleColorful.FromColor = ColorFrom;
+                particleColorful.ToColor = ColorTo;
             }
 
             var speed = Particle.rand.Next(SpeedMin, SpeedMax);

@@ -27,13 +27,7 @@ namespace ParticleSystem
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
             picDisplay.MouseWheel += picDisplay_MouseWheel;
-
-            pointCounter = new CounterPoint
-            {
-                X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
-            };
-
+            
             pointRed = new RepaintingPoint
             {
                 X = picDisplay.Width / 8,
@@ -83,24 +77,28 @@ namespace ParticleSystem
                 RepaintTo = Color.BlueViolet
             };
 
+            pointCounter = new CounterPoint
+            {
+                X = picDisplay.Width / 2,
+                Y = picDisplay.Height / 2,
+            };
+
             this.emitter = new Emitter
             {
                 Direction = 90,
-                Spreading = 90,
+                Spreading = 100,
                 SpeedMin = 12,
                 SpeedMax = 12,
                 ColorFrom = Color.White,
                 ColorTo = Color.FromArgb(0, Color.Black),
-                ParticlesPerTick = 25,
+                ParticlesPerTick = 20,
                 X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 5,
+                Y = picDisplay.Height * 2 / 7,
                 Counter = pointCounter
             };
 
-            emitters.Add(this.emitter);
-
-            
-            emitter.impactPoints.Add(pointCounter);                        
+            emitters.Add(this.emitter);           
+                                  
             emitter.impactPoints.Add(pointRed);
             emitter.impactPoints.Add(pointOrange);
             emitter.impactPoints.Add(pointYellow);
@@ -108,6 +106,7 @@ namespace ParticleSystem
             emitter.impactPoints.Add(pointBlue);
             emitter.impactPoints.Add(pointNavyBlue);
             emitter.impactPoints.Add(pointPurple);
+            emitter.impactPoints.Add(pointCounter);
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -131,10 +130,16 @@ namespace ParticleSystem
             pointCounter.Y = e.Y;
             pointCounter.Counter = 0;
         }
-
-        private void tbDirection_Scroll(object sender, EventArgs e)
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
         {
-            emitter.Direction = tbDirection.Value;            
+            if (e.Delta > 0)
+            {
+                pointCounter.Diametr += 10;
+            }
+            else if (pointCounter.Diametr != 0)
+            {
+                pointCounter.Diametr -= 10;
+            }
         }
 
         private void tbMove_Scroll(object sender, EventArgs e)
@@ -148,16 +153,19 @@ namespace ParticleSystem
             pointPurple.Y = tbMove.Value;
         }
 
-        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        private void tbDirection_Scroll(object sender, EventArgs e)
         {
-            if (e.Delta > 0)
-            {
-                pointCounter.Diametr += 10;
-            } 
-            else if (pointCounter.Diametr != 0)
-            {
-                pointCounter.Diametr -= 10;
-            } 
-        }        
+            emitter.Direction = tbDirection.Value;            
+        }       
+
+        private void tbSpreading_Scroll(object sender, EventArgs e)
+        {
+            emitter.Spreading = tbSpreading.Value;
+        }
+
+        private void tbParticlesPerTick_Scroll(object sender, EventArgs e)
+        {
+            emitter.ParticlesPerTick = tbParticlesPerTick.Value;
+        }
     }
 }
