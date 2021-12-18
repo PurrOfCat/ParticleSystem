@@ -45,6 +45,7 @@ namespace ParticleSystem
     {
         public Color FromColor;
         public Color ToColor;
+        public bool IsInCounterPoint = false;
 
         public static Color MixColor(Color color1, Color color2, float k)
         {
@@ -53,12 +54,13 @@ namespace ParticleSystem
                                   (int)(color2.G * k + color1.G * (1 - k)),
                                   (int)(color2.B * k + color1.B * (1 - k)));
         }
+
         public override void Draw(Graphics g)
         {
             float k = Math.Min(1f, Life / 100);
-
+            
             var color = MixColor(ToColor, FromColor, k);
-            var b = new SolidBrush(color);
+            var b = new SolidBrush(IsInCounterPoint?Color.BlueViolet:color);
 
             g.FillEllipse(b, X - Radius, Y - Radius, Radius * 2, Radius * 2);
 

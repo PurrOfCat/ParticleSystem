@@ -31,7 +31,7 @@ namespace ParticleSystem
         public CounterPoint Counter;        
 
         public virtual void ResetParticle(Particle particle)
-        {
+        {            
             particle.Life = Particle.rand.Next(LifeMin, LifeMax);
 
             particle.X = X;
@@ -45,6 +45,7 @@ namespace ParticleSystem
             particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
 
             particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
+            Counter.ImpactParticle(particle);
         }
         public virtual Particle CreateParticle()
         {
@@ -61,6 +62,10 @@ namespace ParticleSystem
 
             foreach (var particle in particles)
             {
+                if (particle is ParticleColorful particleColorful)
+                {
+                    particleColorful.IsInCounterPoint = false;
+                }
                 if (particle.Life <= 0)
                 {
                     if (particlesToCreate > 0)
@@ -89,7 +94,7 @@ namespace ParticleSystem
             {
                 particlesToCreate -= 1;
                 var particle = CreateParticle();
-                ResetParticle(particle);
+                ResetParticle(particle);                
                 particles.Add(particle);
             }
         }

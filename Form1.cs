@@ -32,13 +32,13 @@ namespace ParticleSystem
             {
                 Direction = 90,
                 Spreading = 180,
-                SpeedMin = 13,
-                SpeedMax = 13,
+                SpeedMin = 10,
+                SpeedMax = 10,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.Red),
                 ParticlesPerTick = 30,
                 X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
+                Y = picDisplay.Height / 3,
                 Counter = point1
             };
 

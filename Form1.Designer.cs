@@ -59,10 +59,10 @@ namespace ParticleSystem
             // 
             // tbDirection
             // 
-            this.tbDirection.Location = new System.Drawing.Point(12, 468);
+            this.tbDirection.Location = new System.Drawing.Point(662, 12);
             this.tbDirection.Maximum = 359;
             this.tbDirection.Name = "tbDirection";
-            this.tbDirection.Size = new System.Drawing.Size(243, 45);
+            this.tbDirection.Size = new System.Drawing.Size(202, 45);
             this.tbDirection.TabIndex = 1;
             this.tbDirection.Scroll += new System.EventHandler(this.tbDirection_Scroll);
             // 
@@ -76,19 +76,19 @@ namespace ParticleSystem
             // 
             // tbGraviton
             // 
-            this.tbGraviton.Location = new System.Drawing.Point(300, 468);
+            this.tbGraviton.Location = new System.Drawing.Point(662, 63);
             this.tbGraviton.Maximum = 100;
             this.tbGraviton.Name = "tbGraviton";
-            this.tbGraviton.Size = new System.Drawing.Size(175, 45);
+            this.tbGraviton.Size = new System.Drawing.Size(202, 45);
             this.tbGraviton.TabIndex = 3;
             this.tbGraviton.Scroll += new System.EventHandler(this.tbGraviton_Scroll);
             // 
             // tbGraviton2
             // 
-            this.tbGraviton2.Location = new System.Drawing.Point(481, 468);
+            this.tbGraviton2.Location = new System.Drawing.Point(662, 114);
             this.tbGraviton2.Maximum = 100;
             this.tbGraviton2.Name = "tbGraviton2";
-            this.tbGraviton2.Size = new System.Drawing.Size(175, 45);
+            this.tbGraviton2.Size = new System.Drawing.Size(202, 45);
             this.tbGraviton2.TabIndex = 4;
             this.tbGraviton2.Scroll += new System.EventHandler(this.tbGraviton2_Scroll);
             // 
@@ -96,7 +96,7 @@ namespace ParticleSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(672, 525);
+            this.ClientSize = new System.Drawing.Size(876, 525);
             this.Controls.Add(this.tbGraviton2);
             this.Controls.Add(this.tbGraviton);
             this.Controls.Add(this.lblDirection);
